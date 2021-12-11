@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'converter1.ui'
+# Form implementation generated from reading ui file 'converter.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Converter(object):
     def setupUi(self, Converter):
         Converter.setObjectName("Converter")
-        Converter.resize(990, 718)
+        Converter.resize(1035, 718)
         Converter.setStyleSheet("#centralwidget { \n"
 "            background-image:url(\"pic1.jpg\"); background-position: center;}")
         self.centralwidget = QtWidgets.QWidget(Converter)
@@ -136,6 +136,19 @@ class Ui_Converter(object):
         spacerItem5 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout.addItem(spacerItem5)
         self.gridLayout.addLayout(self.verticalLayout, 0, 0, 1, 1)
+        self.csv_btn = QtWidgets.QPushButton(self.centralwidget)
+        font = QtGui.QFont()
+        font.setFamily("Arial")
+        font.setPointSize(14)
+        self.csv_btn.setFont(font)
+        self.csv_btn.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.csv_btn.setStyleSheet("border: 4px groove rgb(170, 0, 255);\n"
+"color: rgb(255, 255, 255);\n"
+"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(124, 16, 255, 255), stop:1 rgba(205, 6, 255, 255));\n"
+" min-height: 40px;\n"
+" min-width: 40px;")
+        self.csv_btn.setObjectName("csv_btn")
+        self.gridLayout.addWidget(self.csv_btn, 0, 1, 1, 1, QtCore.Qt.AlignTop)
         Converter.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(Converter)
@@ -149,3 +162,4 @@ class Ui_Converter(object):
         self.label_3.setText(_translate("Converter", "Выберите единицу для перевода:"))
         self.result_btn.setText(_translate("Converter", "Перевести"))
         self.label_4.setText(_translate("Converter", "Результат:"))
+        self.csv_btn.setText(_translate("Converter", "CSV"))

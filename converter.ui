@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>990</width>
+    <width>1035</width>
     <height>718</height>
    </rect>
   </property>
@@ -288,6 +288,29 @@ border-radius: 10px;</string>
        </spacer>
       </item>
      </layout>
+    </item>
+    <item row="0" column="1" alignment="Qt::AlignTop">
+     <widget class="QPushButton" name="csv_btn">
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border: 4px groove rgb(170, 0, 255);
+color: rgb(255, 255, 255);
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(124, 16, 255, 255), stop:1 rgba(205, 6, 255, 255));
+ min-height: 40px;
+ min-width: 40px;</string>
+      </property>
+      <property name="text">
+       <string>CSV</string>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>

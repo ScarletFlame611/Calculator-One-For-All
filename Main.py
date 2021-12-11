@@ -314,6 +314,7 @@ class Converter(QMainWindow, Ui_Converter):
         # подлкючаем сигналы от элементов к соотбетствующим методам
         self.choose_measure.activated[str].connect(self.measure_chosen)
         self.first_number.textChanged.connect(self.show_button)
+        self.csv_btn.clicked.connect(self.csv_redact)
 
     # когда физическая величина выбрана
     def measure_chosen(self, text):
@@ -383,6 +384,18 @@ WHERE unit = ?""", (self.second_unit,)).fetchall()[0][0]
             self.second_number.setText(str(self.result))
         except Exception:  # Если что-то пошло не так - выводим ошибку
             self.second_number.setText("Error")
+
+    def csv_redact(self):
+        self.function = "Конвертер"
+        self.text = "Требования к файлу:\n\nПервый" \
+                    " столбец: значение величины\n" \
+                    "Второй столбец: единица измерения заданного значения" \
+                    " \nТретий столбец: единица измерения, в которую нужно перевести" \
+                    " \nРазделитель: ';'\nВнимание: строки," \
+                    " не подходящие под требования, будут удалены"
+        # открытие окна для работы с csv-файлами
+        self.csv_redact_window = CSVFiles(self, self.function, self.text)
+        self.csv_redact_window.show()
 
 
 # класс, отвечающий за функционал окна с расчетами по формулам
@@ -537,44 +550,73 @@ class CSVFiles(QMainWindow, Ui_CSV_Redact):
                 for i in self.reader:
                     if len(i) == 3:
                         self.strings.append([i[0], i[1], i[2]])
-            with open(self.fname, 'w', newline='') as csvfile:
-                self.writer = csv.writer(csvfile, delimiter=';', quotechar='"')
-                for i in self.strings:
-                    try:
-                        self.number_first = int(i[0])
-                        self.number = int(i[0])
-                        self.sys1 = int(i[1])
-                        self.sys2 = int(i[2])
-                    except Exception:
-                        continue
-                    if self.sys1 != 10:
+                with open(self.fname, 'w', newline='', encoding="utf8") as csvfile:
+                    self.writer = csv.writer(csvfile, delimiter=';', quotechar='"')
+                    for i in self.strings:
                         try:
-                            self.number = int(str(self.number), base=self.sys1)
-                        except ValueError:
-                            self.result = "-"
-                            self.writer.writerow([self.number, self.sys1, self.sys2, self.result])
+                            self.number_first = int(i[0])
+                            self.number = int(i[0])
+                            self.sys1 = int(i[1])
+                            self.sys2 = int(i[2])
+                        except Exception:
                             continue
-                    if self.sys2 == 2:
-                        self.result = format(int(self.number), 'b')
-                    elif self.sys2 == 8:
-                        self.result = format(int(self.number), 'o')
-                    elif self.sys2 == 16:
-                        self.result = format(int(self.number), 'x')
-                    elif self.sys2 == 10:
-                        self.result = str(self.number)
-                    else:
-                        if self.sys2 <= 9 and self.sys2 > 1:
-                            while self.number > 0:
-                                self.result = str(self.number % self.sys2) + self.result
-                                self.number //= self.sys2
+                        if self.sys1 != 10:
+                            try:
+                                self.number = int(str(self.number), base=self.sys1)
+                            except ValueError:
+                                self.result = "-"
+                                self.writer.writerow(
+                                    [self.number, self.sys1, self.sys2, self.result])
+                                continue
+                        if self.sys2 == 2:
+                            self.result = format(int(self.number), 'b')
+                        elif self.sys2 == 8:
+                            self.result = format(int(self.number), 'o')
+                        elif self.sys2 == 16:
+                            self.result = format(int(self.number), 'x')
+                        elif self.sys2 == 10:
+                            self.result = str(self.number)
                         else:
-                            self.result = "-"
-                    if self.result != "-":
+                            if self.sys2 <= 9 and self.sys2 > 1:
+                                while self.number > 0:
+                                    self.result = str(self.number % self.sys2) + self.result
+                                    self.number //= self.sys2
+                            else:
+                                self.result = "-"
+                        if self.result != "-":
+                            self.succesfully_transformed += 1
+                        self.writer.writerow([self.number_first, self.sys1, self.sys2, self.result])
+            elif self.mode == "Конвертер":
+                self.con = sqlite3.connect("converter_db.sqlite")
+                self.cur = self.con.cursor()
+                for i in self.reader:
+                    if len(i) == 3:
+                        self.strings.append([i[0], i[1], i[2]])
+                with open(self.fname, 'w', newline='', encoding="utf8") as csvfile:
+                    self.writer = csv.writer(csvfile, delimiter=';', quotechar='"')
+                    for i in self.strings:
+                        try:
+                            self.number = float(i[0])
+                            self.first_unit = i[1]
+                            self.second_unit = i[2]
+                            self.first_coeff = self.cur.execute("""SELECT multiply FROM units
+                                                    WHERE unit = ?""",
+                                                                (self.first_unit,)).fetchall()[0][0]
+                            self.second_coeff = self.cur.execute("""SELECT multiply FROM units
+                                                    WHERE unit = ?""",
+                                                                 (self.second_unit,)).fetchall()[0][
+                                0]
+                        except Exception:
+                            continue
+                        self.result = float(
+                            self.number) / self.first_coeff * self.second_coeff
                         self.succesfully_transformed += 1
-                    self.writer.writerow([self.number_first, self.sys1, self.sys2, self.result])
-        self.ready_label.setText("Готово!")
-        # подсчет успешно преобразованных строк
-        self.amount_label.setText(f"Успешно преобразованные строки: {self.succesfully_transformed}")
+                        self.writer.writerow(
+                            [self.number, self.first_unit, self.second_unit, self.result])
+            self.ready_label.setText("Готово!")
+            # подсчет успешно преобразованных строк
+            self.amount_label.setText(f"Успешно преобразованные строки:"
+                                      f" {self.succesfully_transformed}")
 
 
 if __name__ == '__main__':
