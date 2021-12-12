@@ -608,9 +608,18 @@ class CSVFiles(QMainWindow, Ui_CSV_Redact):
                                 0]
                         except Exception:
                             continue
-                        self.result = float(
-                            self.number) / self.first_coeff * self.second_coeff
-                        self.succesfully_transformed += 1
+                        self.first_measure = self.cur.execute("""SELECT measure FROM units
+                                                                            WHERE unit = ?""",
+                                                              (self.first_unit,)).fetchall()[0][0]
+                        self.second_measure = self.cur.execute("""SELECT measure FROM units
+                                                                            WHERE unit = ?""",
+                                                               (self.second_unit,)).fetchall()[0][0]
+                        if self.first_measure == self.second_measure:
+                            self.result = float(
+                                self.number) / self.first_coeff * self.second_coeff
+                            self.succesfully_transformed += 1
+                        else:
+                            self.result = "-"
                         self.writer.writerow(
                             [self.number, self.first_unit, self.second_unit, self.result])
             self.ready_label.setText("Готово!")
