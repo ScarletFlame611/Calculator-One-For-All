@@ -1,4 +1,6 @@
 import sys
+
+from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog
 import sqlite3
 import csv
@@ -20,6 +22,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.number_btn.clicked.connect(self.numbers_show)
         self.converter_btn.clicked.connect(self.converter_show)
         self.form_btn.clicked.connect(self.formulasform_show)
+        self.equations_btn.clicked.connect(self.equationsform_show)
 
     def calcform_show(self):
         self.calc_form = Calc(self)
@@ -36,6 +39,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def formulasform_show(self):
         self.formulas_form = Formulas(self)
         self.formulas_form.show()
+
+    def equationsform_show(self):
+        self.equation_form = Equations(self)
+        self.equation_form.show()
 
 
 # класс, отвечающий за функционал окна с калькулятором
@@ -502,6 +509,12 @@ class Formulas(QMainWindow, Ui_Formula):
                 self.used_lineedits.append(self.lines[i])
             for i in self.used_lineedits:
                 i.textChanged.connect(self.show_result_btn)
+
+
+class Equations(QMainWindow):
+    def __init__(self, *args):
+        super().__init__()
+        uic.loadUi('equations.ui', self)
 
 
 # класс, отвечающий за функционал окна для работы с csv-файлами
