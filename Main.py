@@ -1,6 +1,6 @@
 import sys
 
-from PyQt5 import uic
+from PyQt5 import uic, QtGui
 from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog
 import sqlite3
 import csv
@@ -17,6 +17,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+        self.setWindowIcon(QtGui.QIcon('mainicon.jpg'))
         # подключение кнопок к событию открытия соответствующих форм
         self.calc_btn.clicked.connect(self.calcform_show)
         self.number_btn.clicked.connect(self.numbers_show)
@@ -50,6 +51,7 @@ class Calc(QMainWindow, Ui_Calc):
     def __init__(self, *args):
         super().__init__()
         self.setupUi(self)
+        self.setWindowIcon(QtGui.QIcon('calcicon.png'))
         # переменная, куда записываются все вводимые с помощью кнопок числа/операторы
         self.result = []
         # текущее число, которое набирает пользователь, отображается в self.lineEdit
@@ -169,6 +171,7 @@ class NumberSystems(QMainWindow, Ui_NumberSystems):
     def __init__(self, *args):
         super().__init__()
         self.setupUi(self)
+        self.setWindowIcon(QtGui.QIcon('nsicon.png'))
         # словарь для преобразования текста рядом с кнопками в числа
         self.systems = {"Двоичная": 2, "Троичная": 3, "Восьмеричная": 8, "Десятичная": 10,
                         "Шестнадцатеричная": 16}
@@ -302,6 +305,7 @@ class Converter(QMainWindow, Ui_Converter):
     def __init__(self, *args):
         super().__init__()
         self.setupUi(self)
+        self.setWindowIcon(QtGui.QIcon('convertericon.png'))
         self.measure = ""  # выбранная физическая величина
         # переменные для проверки выбора единиц измерения
         self.first_choose = False
@@ -397,6 +401,7 @@ class Formulas(QMainWindow, Ui_Formula):
     def __init__(self, *args):
         super().__init__()
         self.setupUi(self)
+        self.setWindowIcon(QtGui.QIcon('formulaicon.png'))
         # подключение к базе данных с формулами
         self.con = sqlite3.connect("formulas.sqlite")
         self.cur = self.con.cursor()
@@ -515,6 +520,8 @@ class Equations(QMainWindow):
     def __init__(self, *args):
         super().__init__()
         uic.loadUi('equations.ui', self)
+        self.setWindowIcon(QtGui.QIcon('equationicon.png'))
+
 
 
 # класс, отвечающий за функционал окна для работы с csv-файлами
@@ -522,6 +529,7 @@ class CSVFiles(QMainWindow, Ui_CSV_Redact):
     def __init__(self, *args):
         super().__init__()
         self.setupUi(self)
+        self.setWindowIcon(QtGui.QIcon('csvicon.png'))
         self.mode = args[1]  # режим - переданный аргумент с формы, откуда открыто окно
         self.first_text.setText(self.first_text.text() + self.mode)
         self.first_text.adjustSize()
