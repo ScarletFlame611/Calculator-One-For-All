@@ -521,7 +521,53 @@ class Equations(QMainWindow):
         super().__init__()
         uic.loadUi('equations.ui', self)
         self.setWindowIcon(QtGui.QIcon('equationicon.png'))
+        self.koeff_a.setText("0")
+        self.koeff_b.setText("0")
+        self.koeff_c.setText("0")
+        self.koeff_a.textChanged.connect(self.show_result_btn)
+        self.koeff_b.textChanged.connect(self.show_result_btn)
+        self.koeff_c.textChanged.connect(self.show_result_btn)
+        self.result_btn.clicked.connect(self.get_results)
 
+    def show_result_btn(self):
+        if not self.koeff_a.text().replace("-", "").isdigit() or not self.koeff_b.text().replace(
+                "-", "").isdigit() or \
+                not self.koeff_c.text().replace("-", "").isdigit():
+            self.result_btn.hide()
+        else:
+            self.result_btn.show()
+
+    def get_results(self):
+        self.a = float(self.koeff_a.text())
+        self.b = float(self.koeff_b.text())
+        self.c = float(self.koeff_c.text())
+        self.result = self.roots_of_quadratic_equation(self.a, self.b, self.c)
+        self.d_line.setText(self.result[0])
+        self.first_root.setText(self.result[1])
+        self.second_root.setText(self.result[2])
+
+    def roots_of_quadratic_equation(self, a, b, c):
+        if a == 0 and b == 0 and c == 0:
+            return "-", "all", "all"
+        elif a == 0 and b == 0:
+            if c == 0:
+                return "-", "all", "all"
+            else:
+                return "-", "No roots", "No roots"
+        elif a == 0:
+            x = round(-c / b, 3)
+            return "-", str(x), "-"
+        else:
+            D = b ** 2 - 4 * a * c
+            if D > 0:
+                x1 = round((-b + D ** 0.5) / (2 * a), 3)
+                x2 = round((-b - D ** 0.5) / (2 * a), 3)
+                return str(D), str(x1), str(x2)
+            elif D == 0:
+                x = round(-b / (2 * a), 3)
+                return "0", str(x), "-"
+            else:
+                return str(D), "No roots", "No roots"
 
 
 # класс, отвечающий за функционал окна для работы с csv-файлами

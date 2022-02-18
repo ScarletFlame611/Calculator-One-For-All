@@ -54,7 +54,7 @@
            </widget>
           </item>
           <item alignment="Qt::AlignHCenter">
-           <widget class="QLineEdit" name="lineEdit">
+           <widget class="QLineEdit" name="koeff_a">
             <property name="font">
              <font>
               <family>Arial</family>
@@ -98,7 +98,7 @@ border-radius: 10px;</string>
            </widget>
           </item>
           <item alignment="Qt::AlignHCenter">
-           <widget class="QLineEdit" name="lineEdit_2">
+           <widget class="QLineEdit" name="koeff_b">
             <property name="font">
              <font>
               <family>Arial</family>
@@ -142,7 +142,7 @@ border-radius: 10px;</string>
            </widget>
           </item>
           <item alignment="Qt::AlignHCenter">
-           <widget class="QLineEdit" name="lineEdit_3">
+           <widget class="QLineEdit" name="koeff_c">
             <property name="font">
              <font>
               <family>Arial</family>
@@ -242,7 +242,7 @@ border: 4px groove rgb(170, 0, 255);</string>
            </widget>
           </item>
           <item alignment="Qt::AlignLeft">
-           <widget class="QLineEdit" name="lineEdit_4">
+           <widget class="QLineEdit" name="d_line">
             <property name="font">
              <font>
               <family>Arial</family>
@@ -314,7 +314,7 @@ border-radius: 10px;</string>
              </widget>
             </item>
             <item alignment="Qt::AlignHCenter">
-             <widget class="QLineEdit" name="lineEdit_6">
+             <widget class="QLineEdit" name="first_root">
               <property name="font">
                <font>
                 <family>Arial</family>
@@ -345,7 +345,7 @@ border-radius: 10px;</string>
              </widget>
             </item>
             <item alignment="Qt::AlignHCenter">
-             <widget class="QLineEdit" name="lineEdit_7">
+             <widget class="QLineEdit" name="second_root">
               <property name="font">
                <font>
                 <family>Arial</family>
