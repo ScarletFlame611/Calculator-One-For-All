@@ -10,6 +10,7 @@ from converter import Ui_Converter
 from formula import Ui_Formula
 from csv_redact import Ui_CSV_Redact
 from main_window import Ui_MainWindow
+from equations import Ui_Equations
 
 
 # класс главного окна, в котором можно выбрать, какую операцию пользователь хочет совершить
@@ -516,10 +517,10 @@ class Formulas(QMainWindow, Ui_Formula):
                 i.textChanged.connect(self.show_result_btn)
 
 
-class Equations(QMainWindow):
+class Equations(QMainWindow, Ui_Equations):
     def __init__(self, *args):
         super().__init__()
-        uic.loadUi('equations.ui', self)
+        self.setupUi(self)
         self.setWindowIcon(QtGui.QIcon('equationicon.png'))
         self.koeff_a.setText("0")
         self.koeff_b.setText("0")
