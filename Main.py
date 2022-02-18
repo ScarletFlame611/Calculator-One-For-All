@@ -1,4 +1,6 @@
 import sys
+
+from PyQt5 import uic, QtGui
 from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog
 import sqlite3
 import csv
@@ -8,6 +10,7 @@ from converter import Ui_Converter
 from formula import Ui_Formula
 from csv_redact import Ui_CSV_Redact
 from main_window import Ui_MainWindow
+from equations import Ui_Equations
 
 
 # класс главного окна, в котором можно выбрать, какую операцию пользователь хочет совершить
@@ -15,11 +18,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+        self.setWindowIcon(QtGui.QIcon('mainicon.jpg'))
         # подключение кнопок к событию открытия соответствующих форм
         self.calc_btn.clicked.connect(self.calcform_show)
         self.number_btn.clicked.connect(self.numbers_show)
         self.converter_btn.clicked.connect(self.converter_show)
         self.form_btn.clicked.connect(self.formulasform_show)
+        self.equations_btn.clicked.connect(self.equationsform_show)
 
     def calcform_show(self):
         self.calc_form = Calc(self)
@@ -37,12 +42,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.formulas_form = Formulas(self)
         self.formulas_form.show()
 
+    def equationsform_show(self):
+        self.equation_form = Equations(self)
+        self.equation_form.show()
+
 
 # класс, отвечающий за функционал окна с калькулятором
 class Calc(QMainWindow, Ui_Calc):
     def __init__(self, *args):
         super().__init__()
         self.setupUi(self)
+        self.setWindowIcon(QtGui.QIcon('calcicon.png'))
         # переменная, куда записываются все вводимые с помощью кнопок числа/операторы
         self.result = []
         # текущее число, которое набирает пользователь, отображается в self.lineEdit
@@ -162,6 +172,7 @@ class NumberSystems(QMainWindow, Ui_NumberSystems):
     def __init__(self, *args):
         super().__init__()
         self.setupUi(self)
+        self.setWindowIcon(QtGui.QIcon('nsicon.png'))
         # словарь для преобразования текста рядом с кнопками в числа
         self.systems = {"Двоичная": 2, "Троичная": 3, "Восьмеричная": 8, "Десятичная": 10,
                         "Шестнадцатеричная": 16}
@@ -295,6 +306,7 @@ class Converter(QMainWindow, Ui_Converter):
     def __init__(self, *args):
         super().__init__()
         self.setupUi(self)
+        self.setWindowIcon(QtGui.QIcon('convertericon.png'))
         self.measure = ""  # выбранная физическая величина
         # переменные для проверки выбора единиц измерения
         self.first_choose = False
@@ -403,6 +415,7 @@ class Formulas(QMainWindow, Ui_Formula):
     def __init__(self, *args):
         super().__init__()
         self.setupUi(self)
+        self.setWindowIcon(QtGui.QIcon('formulaicon.png'))
         # подключение к базе данных с формулами
         self.con = sqlite3.connect("formulas.sqlite")
         self.cur = self.con.cursor()
@@ -517,11 +530,66 @@ class Formulas(QMainWindow, Ui_Formula):
                 i.textChanged.connect(self.show_result_btn)
 
 
+class Equations(QMainWindow, Ui_Equations):
+    def __init__(self, *args):
+        super().__init__()
+        self.setupUi(self)
+        self.setWindowIcon(QtGui.QIcon('equationicon.png'))
+        self.koeff_a.setText("0")
+        self.koeff_b.setText("0")
+        self.koeff_c.setText("0")
+        self.koeff_a.textChanged.connect(self.show_result_btn)
+        self.koeff_b.textChanged.connect(self.show_result_btn)
+        self.koeff_c.textChanged.connect(self.show_result_btn)
+        self.result_btn.clicked.connect(self.get_results)
+
+    def show_result_btn(self):
+        if not self.koeff_a.text().replace("-", "").isdigit() or not self.koeff_b.text().replace(
+                "-", "").isdigit() or \
+                not self.koeff_c.text().replace("-", "").isdigit():
+            self.result_btn.hide()
+        else:
+            self.result_btn.show()
+
+    def get_results(self):
+        self.a = float(self.koeff_a.text())
+        self.b = float(self.koeff_b.text())
+        self.c = float(self.koeff_c.text())
+        self.result = self.roots_of_quadratic_equation(self.a, self.b, self.c)
+        self.d_line.setText(self.result[0])
+        self.first_root.setText(self.result[1])
+        self.second_root.setText(self.result[2])
+
+    def roots_of_quadratic_equation(self, a, b, c):
+        if a == 0 and b == 0 and c == 0:
+            return "-", "all", "all"
+        elif a == 0 and b == 0:
+            if c == 0:
+                return "-", "all", "all"
+            else:
+                return "-", "No roots", "No roots"
+        elif a == 0:
+            x = round(-c / b, 3)
+            return "-", str(x), "-"
+        else:
+            D = b ** 2 - 4 * a * c
+            if D > 0:
+                x1 = round((-b + D ** 0.5) / (2 * a), 3)
+                x2 = round((-b - D ** 0.5) / (2 * a), 3)
+                return str(D), str(x1), str(x2)
+            elif D == 0:
+                x = round(-b / (2 * a), 3)
+                return "0", str(x), "-"
+            else:
+                return str(D), "No roots", "No roots"
+
+
 # класс, отвечающий за функционал окна для работы с csv-файлами
 class CSVFiles(QMainWindow, Ui_CSV_Redact):
     def __init__(self, *args):
         super().__init__()
         self.setupUi(self)
+        self.setWindowIcon(QtGui.QIcon('csvicon.png'))
         self.mode = args[1]  # режим - переданный аргумент с формы, откуда открыто окно
         self.first_text.setText(self.first_text.text() + self.mode)
         self.first_text.adjustSize()

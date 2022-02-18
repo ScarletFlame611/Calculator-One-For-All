@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Equations</class>
+ <widget class="QMainWindow" name="Equations">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>527</width>
+    <height>472</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Уравнения</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">#centralwidget { 
+            background-image:url(&quot;pic1.jpg&quot;); background-position: center;}</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <property name="leftMargin">
+     <number>10</number>
+    </property>
+    <property name="topMargin">
+     <number>10</number>
+    </property>
+    <property name="rightMargin">
+     <number>10</number>
+    </property>
+    <property name="bottomMargin">
+     <number>10</number>
+    </property>
+    <property name="spacing">
+     <number>10</number>
+    </property>
+    <item row="0" column="0">
+     <layout class="QVBoxLayout" name="verticalLayout_5">
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item alignment="Qt::AlignHCenter">
+           <widget class="QLabel" name="label">
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Введите старший коэффициент:</string>
+            </property>
+           </widget>
+          </item>
+          <item alignment="Qt::AlignHCenter">
+           <widget class="QLineEdit" name="koeff_a">
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">border: 2px solid gray;
+border-radius: 10px;</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item alignment="Qt::AlignHCenter">
+           <widget class="QLabel" name="label_2">
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Введите второй коэффициент:</string>
+            </property>
+           </widget>
+          </item>
+          <item alignment="Qt::AlignHCenter">
+           <widget class="QLineEdit" name="koeff_b">
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">border: 2px solid gray;
+border-radius: 10px;</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item alignment="Qt::AlignHCenter">
+           <widget class="QLabel" name="label_3">
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Введите свободный член:</string>
+            </property>
+           </widget>
+          </item>
+          <item alignment="Qt::AlignHCenter">
+           <widget class="QLineEdit" name="koeff_c">
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">border: 2px solid gray;
+border-radius: 10px;</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <spacer name="verticalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item alignment="Qt::AlignHCenter">
+       <widget class="QPushButton" name="result_btn">
+        <property name="font">
+         <font>
+          <family>Arial</family>
+          <pointsize>14</pointsize>
+         </font>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">min-width:  196px;
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(124, 16, 255, 255), stop:1 rgba(205, 6, 255, 255));
+color: rgb(255, 255, 255);
+    max-width:  196px;
+    min-height: 50px;
+    max-height: 50px;
+    border-radius: 24px;
+border: 4px groove rgb(170, 0, 255);</string>
+        </property>
+        <property name="text">
+         <string>Рассчитать</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="verticalSpacer_4">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <item>
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item alignment="Qt::AlignHCenter">
+           <widget class="QLabel" name="label_4">
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Дискриминант:</string>
+            </property>
+           </widget>
+          </item>
+          <item alignment="Qt::AlignLeft">
+           <widget class="QLineEdit" name="d_line">
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">border: 2px solid gray;
+border-radius: 10px;</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_5">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_6">
+          <item>
+           <spacer name="horizontalSpacer_5">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_2">
+            <item alignment="Qt::AlignHCenter">
+             <widget class="QLabel" name="label_6">
+              <property name="font">
+               <font>
+                <family>Arial</family>
+                <pointsize>14</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Первый корень:</string>
+              </property>
+             </widget>
+            </item>
+            <item alignment="Qt::AlignHCenter">
+             <widget class="QLineEdit" name="first_root">
+              <property name="font">
+               <font>
+                <family>Arial</family>
+                <pointsize>14</pointsize>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border: 2px solid gray;
+border-radius: 10px;</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_3">
+            <item alignment="Qt::AlignHCenter">
+             <widget class="QLabel" name="label_7">
+              <property name="font">
+               <font>
+                <family>Arial</family>
+                <pointsize>14</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Второй корень:</string>
+              </property>
+             </widget>
+            </item>
+            <item alignment="Qt::AlignHCenter">
+             <widget class="QLineEdit" name="second_root">
+              <property name="font">
+               <font>
+                <family>Arial</family>
+                <pointsize>14</pointsize>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border: 2px solid gray;
+border-radius: 10px;</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_6">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
